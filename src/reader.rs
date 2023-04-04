@@ -16,10 +16,23 @@ pub use futures_lite::AsyncSeek;
 pub use futures_lite::stream::Stream;
 
 /// Boxed [`ReadBlob`], as returned by [`crate::Filesystem::read_blob`].
-pub type ReadBlobObj = smallbox::SmallBox<dyn ReadBlob, smallbox::space::S4>;
+pub type ReadBlobObj = smallbox::SmallBox<dyn ReadBlob, smallbox::space::S2>;
 
 /// Boxed [`ReadList`], as returned by [`crate::Filesystem::read_list`].
-pub type ReadListObj = smallbox::SmallBox<dyn ReadList, smallbox::space::S4>;
+pub type ReadListObj = smallbox::SmallBox<dyn ReadList, smallbox::space::S2>;
+
+#[test]
+fn reader_objects_size() {
+    let bvec_size = std::mem::size_of::<Vec<u8>>();
+    let lent_size = std::mem::size_of::<ListEntry>();
+    let blob_size = std::mem::size_of::<ReadBlobObj>();
+    let list_size = std::mem::size_of::<ReadListObj>();
+    eprintln!("Size of a Vec<u8>: {bvec_size} bytes");
+    eprintln!("Size of a ListEntry: {lent_size} bytes");
+    eprintln!("Size of a ReadBlobObj: {blob_size} bytes");
+    eprintln!("Size of a ReadListObj: {list_size} bytes");
+    assert!(bvec_size <= blob_size, "Vec<u8> must fit inside ReadBlobObj")
+}
 
 /// A seekable reader.
 pub trait AsyncSeekableReader: AsyncRead + AsyncSeek {

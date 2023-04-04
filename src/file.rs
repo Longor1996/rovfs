@@ -22,6 +22,9 @@ pub enum FileId<'s> {
 /// A abstract file identifier with owned lifetime.
 pub type StaticFileId = FileId<'static>;
 
+/// A [`FileId`] wrapped in a [`std::borrow::Cow`].
+pub type FileIdArg<'s> = std::borrow::Cow<'s, FileId<'s>>;
+
 impl<'s> ToOwned for FileId<'s> {
     type Owned = FileId<'s>;
     
@@ -37,9 +40,11 @@ impl<'s> ToOwned for FileId<'s> {
 #[test]
 fn fileid_size() {
     let file_size = std::mem::size_of::<StaticFileId>();
+    let argf_size = std::mem::size_of::<FileIdArg>();
     eprintln!("Size of a &str: {} bytes", std::mem::size_of::<&str>());
     eprintln!("Size of a µStr: {} bytes", std::mem::size_of::<CompactString>());
     eprintln!("Size of a UUID: {} bytes", std::mem::size_of::<uuid::Uuid>());
-    eprintln!("Size of a FileId: {file_size} bytes");
+    eprintln!("Size of a FileId:    {file_size} bytes");
+    eprintln!("Size of a FileIdArg: {argf_size} bytes");
     assert!(file_size == 32)
 }

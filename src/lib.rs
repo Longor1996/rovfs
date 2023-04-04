@@ -31,14 +31,22 @@ pub mod factory;
 
 /// Various filesystem implementations.
 pub mod filesystems {
+    /// [`mnt::MountFs`] filesystem.
+    /// 
+    /// It is recommended to use this filesystem as 'root',
+    /// when dealing with a multitude of filesystems.
+    /// 
+    /// TODO: mnt / mounting
+    pub mod mnt;
+    
     // ----- Direct Filesystems
     
-    /// [`dir::EmbeddedFs`] filesystem.
+    /// [`exe::EmbeddedFs`] filesystem.
     /// 
     /// TODO: exe / embedded
     pub mod exe;
     
-    /// [`dir::RuntimeFs`] filesystem.
+    /// [`run::RuntimeFs`] filesystem.
     /// 
     /// TODO: run / runtime filesystem
     pub mod run;
@@ -107,23 +115,5 @@ pub mod filesystems {
         /// 
         /// TODO: url / https download
         pub mod url;
-    }
-    
-    /// **Meta** Filesystems
-    pub mod meta {
-        /// Overlay one filesystem with another (or several).
-        /// 
-        /// TODO: ovr / overlay one filesystem with another
-        pub mod ovr;
-        
-        /// Cache the resources of another filesystem.
-        /// 
-        /// TODO: lru / cache a filesystem
-        pub mod lru;
-        
-        /// Complex combination of multiple filesystems, allowing for partial overrides.
-        /// 
-        /// TODO: tri / complex filesystem overlays allowing partial overrides and mounts.
-        pub mod tri;
     }
 }
