@@ -2,6 +2,9 @@ default: run
 
 binfeats := "--features 'default inventory clap'"
 
+test:
+    cargo test
+
 run *ARGS='':
     cargo run {{binfeats}} -- {{ARGS}}
 
