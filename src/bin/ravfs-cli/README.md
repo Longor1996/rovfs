@@ -1,1 +1,0 @@
-# Virtual Filesystem CLI Frontend
